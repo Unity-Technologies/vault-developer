@@ -53,8 +53,8 @@ fi
 
 vault auth enable approle
 
-# Write a policy that gives full permission to secret/* as well as an additional secrets engine if specified in $VAULT_SECRETS_ENGINE_NAME
-echo "{\"path\":{\"secret/*\":{\"capabilities\":[\"create\",\"read\",\"update\",\"delete\",\"list\",\"sudo\"]},\"$VAULT_SECRETS_ENGINE_NAME/*\":{\"capabilities\":[\"create\",\"read\",\"update\",\"delete\",\"list\",\"sudo\"]}}}" | vault policy write developer -
+# Write a policy that gives full permission to secret/* as well as an additional secrets engine if specified in $VAULT_SECRETS_ENGINE_NAME and the ability to lookup tokens
+echo "{\"path\":{\"secret/*\":{\"capabilities\":[\"create\",\"read\",\"update\",\"delete\",\"list\",\"sudo\"]},\"$VAULT_SECRETS_ENGINE_NAME/*\":{\"capabilities\":[\"create\",\"read\",\"update\",\"delete\",\"list\",\"sudo\"]},\"auth/token/lookup\":{\"capabilities\":[\"read\"]}}}" | vault policy write developer -
 
 vault write auth/approle/role/developer \
     secret_id_ttl=60m \
